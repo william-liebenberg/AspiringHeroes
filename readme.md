@@ -1,5 +1,9 @@
 # .NET Aspire
 
+<div align="center">
+    <img alt='aspire logo' src='./docs/images/aspire.svg' />
+</div>
+
 .NET Aspire is based on a previous experiment from Microsoft called `Project Tye` which was release around 2018.
 
 The goal of .NET Aspire is to improve the local development experience for Distributed Applications (aka microservices). In a nutshell, .NET Aspire helps to improve:

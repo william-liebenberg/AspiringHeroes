@@ -2,7 +2,6 @@
     <img alt='aspire logo' src='./docs/images/aspire.svg' />
 </div>
 
-
 # .NET Aspire
 
 .NET Aspire is based on a previous experiment from Microsoft called `Project Tye` which was release around 2018.

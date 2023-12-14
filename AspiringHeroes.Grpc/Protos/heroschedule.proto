@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option csharp_namespace = "AspiringHeroes.Grpc";
+
+import "google/protobuf/empty.proto";
+//import "google/protobuf/duration.proto";  
+import "google/protobuf/timestamp.proto";
+
+package heroschedule;
+
+service HeroSchedule {
+  rpc GetHeroesSchedule (google.protobuf.Empty) returns (ScheduleResponse);
+}
+
+message ScheduleResponse {
+	repeated GrpcSuperHero schedule = 1;
+}
+
+message GrpcSuperHero {
+	string name = 1;
+	string realName = 2;
+    repeated string superpowers = 3;
+	
+	// will deserialize as DateTime / DateTimeOffset(default offset: 0) but not explicitly nullable. So still need to check for nulls
+	google.protobuf.Timestamp lastSave = 4;
+}

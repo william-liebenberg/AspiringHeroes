@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>3e67c048-032a-4783-8319-8fd1146fa3ee</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AspiringHeroes.Grpc\AspiringHeroes.Grpc.csproj" />
+    <ProjectReference Include="..\AspiringHeroes.Web\AspiringHeroes.Web.csproj" />
+    <ProjectReference Include="..\AspiringHeroes.Api\AspiringHeroes.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting" Version="8.0.0-preview.1.23557.2" />
+    <PackageReference Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0-preview.1.23557.2" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,51 @@
+﻿@page "/heroes"
+@attribute [StreamRendering(true)]
+@attribute [OutputCache(Duration = 5)]
+
+@inject HeroesApiClient HeroesApi
+
+<PageTitle>Heroes</PageTitle>
+
+<h1>Heroes</h1>
+
+<p>This component demonstrates showing data loaded from a backend API service.</p>
+
+@if (heroes == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Real Name</th>
+                <th>Superpowers</th>
+                <th>Ready to Save the world?</th>
+                <th>Last Save</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var hero in heroes)
+            {
+                <tr>
+                    <td>@hero.Name</td>
+                    <td>@hero.RealName</td>
+                    <td>@string.Join(", ", hero.SuperPowers)</td>
+                    <td>@(hero.ReadyToSaveTheWorld ? "Yes" : "No")</td>
+                    <td>@($"{hero.LastSave?.ToLongTimeString()} ({Math.Round((DateTime.Now - hero.LastSave)?.TotalMinutes ?? 0, 0)} mins ago)")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private SuperHero[]? heroes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        heroes = await HeroesApi.GetHeroesAsync();
+    }
+}

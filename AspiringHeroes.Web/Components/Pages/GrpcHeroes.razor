@@ -1,0 +1,63 @@
+﻿@page "/grpcheroes"
+@attribute [StreamRendering(true)]
+@attribute [OutputCache(Duration = 5)]
+
+@using AspiringHeroes.Grpc
+@using Google.Protobuf.Collections
+@using Google.Protobuf.WellKnownTypes
+@using global::Grpc.Net.Client
+@using static AspiringHeroes.Grpc.HeroSchedule
+@inject HeroScheduleClient HeroScheduleClient
+
+<PageTitle>Heroes (GRPC)</PageTitle>
+
+<h1>Heroes (GRPC)</h1>
+
+<p>This component demonstrates showing data loaded from a backend GRPC service.</p>
+
+@if (heroes == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Real Name</th>
+                <th>Superpowers</th>
+                <th>Ready to Save the world?</th>
+                <th>Last Save</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var hero in heroes)
+            {
+                <tr>
+                    <td>@hero.Name</td>
+                    <td>@hero.RealName</td>
+                    <td>@string.Join(", ", hero.SuperPowers)</td>
+                    <td>@(hero.ReadyToSaveTheWorld ? "Yes" : "No")</td>
+                    <td>@($"{hero.LastSave?.ToLongTimeString()} ({Math.Round((DateTime.Now - hero.LastSave)?.TotalMinutes ?? 0, 0)} mins ago)")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Shared.SuperHero> heroes = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // probably worth wrapping up the heroes grpc client to take care of all the grpc specifics outside of the UI components
+        RepeatedField<GrpcSuperHero> gheroes = (await HeroScheduleClient.GetHeroesScheduleAsync(new Empty())).Schedule;
+
+        heroes = new List<Shared.SuperHero>();
+        foreach(var hero in gheroes)
+        {
+            heroes.Add(new Shared.SuperHero(hero.Name, hero.RealName, hero.Superpowers.ToArray(), hero.LastSave.ToDateTime()));
+        }
+    }
+}
